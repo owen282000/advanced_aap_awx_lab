@@ -1,0 +1,32 @@
+---
+- name: Use 'requests' Python package
+  hosts: managed_nodes
+  tasks:
+    - name: Copy test script to managed node
+      ansible.builtin.copy:
+        src: test_requests.py
+        dest: /tmp/test_requests.py
+      delegate_to: localhost
+      run_once: yes
+
+    - name: Run Python script that uses 'requests'
+      ansible.builtin.command:
+        cmd: python3 /tmp/test_requests.py
+      register: result
+      delegate_to: localhost
+      ignore_errors: yes
+      run_once: yes
+ 
+    - name: Debug result
+      ansible.builtin.debug:
+        msg: "{{ result.stdout }}"
+      delegate_to: localhost
+      run_once: yes
+
+    - name: Fail if requests package is not installed
+      ansible.builtin.fail:
+        msg: "The 'requests' package is not installed in the current execution environment."
+      when: result.stderr is search("No module named")
+      delegate_to: localhost
+      run_once: yes
+
