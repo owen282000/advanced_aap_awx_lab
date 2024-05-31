@@ -1,0 +1,31 @@
+---
+- name: Use 'coolname' Python package
+  hosts: managed_nodes
+  tasks:
+    - name: Copy test script to managed node
+      ansible.builtin.copy:
+        src: test_coolname.py
+        dest: /tmp/test_coolname.py
+      delegate_to: localhost
+      run_once: true
+
+    - name: Run Python script that uses 'coolname'
+      ansible.builtin.command:
+        cmd: python3 /tmp/test_coolname.py
+      register: result
+      delegate_to: localhost
+      ignore_errors: yes
+      run_once: true
+
+    - name: Debug result
+      ansible.builtin.debug:
+        msg: "{{ result.stdout }}"
+      delegate_to: localhost
+      run_once: true
+
+    - name: Fail if coolname package is not installed
+      ansible.builtin.fail:
+        msg: "The 'coolname' package is not installed in the current execution environment."
+      when: result.stderr is search("No module named 'coolname'")
+      delegate_to: localhost
+      run_once: true
