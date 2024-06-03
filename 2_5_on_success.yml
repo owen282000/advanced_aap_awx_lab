@@ -28,6 +28,6 @@
 
     - name: Display success message
       ansible.builtin.debug:
-        msg: "The playbook ran successfully and Nginx and MariaDB are installed and running."
+        msg: "The playbook ran successfully and Nginx is installed and running."
       when: curl_status.stdout == "200"
 ...

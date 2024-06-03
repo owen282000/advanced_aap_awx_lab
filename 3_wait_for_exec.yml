@@ -1,0 +1,12 @@
+---
+- name: Wait for 2 minutes
+  hosts: node-1
+  tasks:
+    - name: Display message
+      ansible.builtin.debug:
+        msg: "The playbook is being stalled for 2 minutes to check out the new execution node."
+
+    - name: Wait for 2 minutes
+      ansible.builtin.pause:
+        minutes: 2
+...

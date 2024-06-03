@@ -1,0 +1,7 @@
+---
+- name: Display an always run
+  hosts: node-1
+  tasks:
+    - name: Debug result
+      ansible.builtin.debug:
+        msg: "This playbook is being ran regardless of previous results."

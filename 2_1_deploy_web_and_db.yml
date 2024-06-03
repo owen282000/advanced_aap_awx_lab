@@ -1,0 +1,9 @@
+---
+- name: Deploy Webserver
+  hosts: node-1
+  tasks:
+    - name: Install Nginx on webserver
+      ansible.builtin.yum:
+        name: nginx
+        state: present
+...

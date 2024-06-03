@@ -1,6 +1,6 @@
 ---
 - name: Use 'coolname' Python package
-  hosts: managed_nodes
+  hosts: node-1
   tasks:
     - name: Copy test script to managed node
       ansible.builtin.copy:
