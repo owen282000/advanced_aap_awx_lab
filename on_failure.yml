@@ -1,0 +1,17 @@
+---
+- name: Display succesfull run
+  hosts: node-1
+  tasks:
+    - name: Debug result
+      ansible.builtin.debug:
+        msg: "The playbook failed and we are restoring the config"
+      
+    - name: Restore nginx.conf
+      ansible.builtin.copy:
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
+
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted

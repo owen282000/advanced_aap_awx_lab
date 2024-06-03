@@ -1,0 +1,10 @@
+---
+- name: Delete Nginx config
+  hosts: managed_nodes
+  tasks:
+    - name: Delete Nginx config on webserver (node-1)
+      ansible.builtin.file:
+        path: /etc/nginx/nginx.conf 
+        state: absent
+      when: inventory_hostname == 'node-1'
+...

@@ -1,0 +1,8 @@
+---
+- name: Display succesfull run
+  hosts: managed_nodes
+  tasks:
+    - name: Debug result
+      ansible.builtin.debug:
+        msg: "The playbook ran succesfully and nginx and mariadb are installed and running"
+      when: inventory_hostname == 'node-1'

@@ -1,0 +1,23 @@
+---
+- name: Deploy Webserver and Database
+  hosts: managed_nodes
+  tasks:
+    - name: Install Nginx on webserver (node-1)
+      ansible.builtin.yum:
+        name: nginx
+        state: present
+      when: inventory_hostname == 'node-1'
+
+    - name: Install MariaDB on database server (node-2)
+      ansible.builtin.yum:
+        name: mariadb-server
+        state: present
+      when: inventory_hostname == 'node-2'
+
+    - name: Start MariaDB on database server (node-2)
+      ansible.builtin.service:
+        name: mariadb
+        state: started
+        enabled: true
+      when: inventory_hostname == 'node-2'
+...
