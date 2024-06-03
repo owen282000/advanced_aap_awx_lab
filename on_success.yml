@@ -1,8 +1,33 @@
 ---
-- name: Display succesfull run
-  hosts: managed_nodes
+- name: Display successful run
+  hosts: node-1
   tasks:
-    - name: Debug result
+    - name: Start Nginx on webserver
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Curl the Nginx webpage for status code
+      ansible.builtin.command:
+        cmd: curl -s -o /dev/null -w "%{http_code}" http://localhost
+      register: curl_status
+
+    - name: Curl the Nginx webpage for HTML content
+      ansible.builtin.command:
+        cmd: curl -s http://localhost
+      register: curl_content
+
+    - name: Debug HTTP status code
       ansible.builtin.debug:
-        msg: "The playbook ran succesfully and nginx and mariadb are installed and running"
-      when: inventory_hostname == 'node-1'
+        msg: "HTTP status code from Nginx: {{ curl_status.stdout }}"
+
+    - name: Debug HTML content of the webpage
+      ansible.builtin.debug:
+        msg: "HTML content from Nginx: {{ curl_content.stdout }}"
+
+    - name: Display success message
+      ansible.builtin.debug:
+        msg: "The playbook ran successfully and Nginx and MariaDB are installed and running."
+      when: curl_status.stdout == "200"
+...

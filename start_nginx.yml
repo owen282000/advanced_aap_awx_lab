@@ -1,11 +1,10 @@
 ---
 - name: Start Webserver
-  hosts: managed_nodes
+  hosts: node-1
   tasks:
-    - name: Start Nginx on webserver (node-1)
+    - name: Start Nginx on webserver
       ansible.builtin.service:
         name: nginx
         state: started
         enabled: true
-      when: inventory_hostname == 'node-1'
 ...
